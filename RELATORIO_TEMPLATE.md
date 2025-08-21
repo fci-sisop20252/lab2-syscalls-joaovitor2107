@@ -66,10 +66,10 @@ Para podermos ter garantias do funcionamento das operações, caso tentemos ler 
 ## 3️⃣ Exercício 3 - Contador com Loop
 
 ### 📋 Resultados (BUFFER_SIZE = 64):
-- Linhas: _____ (esperado: 25)
-- Caracteres: _____
-- Chamadas read(): _____
-- Tempo: _____ segundos
+- Linhas: 25 (esperado: 25)
+- Caracteres: 1300
+- Chamadas read(): 21 - mas no strace diz que são 23
+- Tempo: 0.000101 segundos
 
 ### 🧪 Experimentos com buffer:
 
@@ -85,13 +85,13 @@ Para podermos ter garantias do funcionamento das operações, caso tentemos ler 
 **1. Como o tamanho do buffer afeta o número de syscalls?**
 
 ```
-[Sua análise aqui]
+Quanto menor o buffer maior o número de syscalls necessárias para conseguir ler o arquivo, dado que cada syscall de read só consegue ler o tamanho do buffer, então se o buffer for menor que o arquivo demora mais. 
 ```
 
 **2. Todas as chamadas read() retornaram BUFFER_SIZE bytes? Discorra brevemente sobre**
 
 ```
-[Sua análise aqui]
+Nem todas, quando chegamos em EOF, por exemplo, read() retorna só a quantidade de bytes lidos até o EOF
 ```
 
 **3. Qual é a relação entre syscalls e performance?**
