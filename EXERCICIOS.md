@@ -192,10 +192,12 @@ strace -o traces/ex2_trace.txt ./ex2_leitura
    - Mude `BUFFER_SIZE` para 10
    - Recompile e execute
    - O que acontece com arquivos maiores que o buffer?
+O read so le até o tamanho do buffer e logo após fecha o arquivo
 
 2. **Arquivo inexistente:**
    - Mude o nome do arquivo para algo que não existe
    - Observe as mensagens de erro
+No such file
 
 ### Perguntas para Reflexão:
 

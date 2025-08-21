@@ -13,19 +13,19 @@ strace -e write ./ex1b_write
 ### 🔍 Análise
 
 **1. Quantas syscalls write() cada programa gerou?**
-- ex1a_printf: _____ syscalls
-- ex1b_write: _____ syscalls
+- ex1a_printf: 9 syscalls
+- ex1b_write: 7 syscalls
 
 **2. Por que há diferença entre os dois métodos? Consulte o docs/printf_vs_write.md**
 
 ```
-[Sua análise aqui]
+Essa diferença entre os dois métodos se dá pelo fato de que cada vez que o printf é chamado você não tem necessariamente uma chamada de syscall, você pode ter vários printf e uma só chamada e um só printf e mais de uma chamada de write. Nesse caso em específico temos que em cada uma das linhas de printf que contem dois \n, nós temos dois syscall e aqui temos duas assim, sendo o motivo da diferença do número de syscall de write.
 ```
 
 **3. Qual método é mais previsível? Por quê você acha isso?**
 
 ```
-[Sua análise aqui]
+O método mais previsível é o write(), apesar de ser mais lento na maioria dos casos aqui sabemos exatamente quantas syscalls serão feitas dado que cada chamada de write é uma syscall.
 ```
 
 ---
@@ -33,8 +33,8 @@ strace -e write ./ex1b_write
 ## 2️⃣ Exercício 2 - Leitura de Arquivo
 
 ### 📊 Resultados da execução:
-- File descriptor: _____
-- Bytes lidos: _____
+- File descriptor: 3
+- Bytes lidos: 127
 
 ### 🔧 Comando strace:
 ```bash
@@ -46,19 +46,19 @@ strace -e openat,read,close ./ex2_leitura
 **1. Qual file descriptor foi usado? Por que não começou em 0, 1 ou 2?**
 
 ```
-[Sua análise aqui]
+O file descriptor usado foi o 3, e não utilizamos o 0,1 ou 2 porque esses são reservados para entrada(scanf), saida(printf) e para saida de erro. Então temos o primeiro file descriptor após esse.
 ```
 
 **2. Como você sabe que o arquivo foi lido completamente?**
 
 ```
-[Sua análise aqui]
+Nos sabemos que o arquivo foi lido completamente quando o retorno da função read é 0
 ```
 
 **3. Por que verificar retorno de cada syscall?**
 
 ```
-[Sua análise aqui]
+Para podermos ter garantias do funcionamento das operações, caso tentemos ler um arquivo que não conseguimos abrir por exemplo poderemos ter erros e bugs inesperados e queremos evitar isso, pois estamos lidando com syscall que são executadas diretamente pelo kernel.
 ```
 
 ---
