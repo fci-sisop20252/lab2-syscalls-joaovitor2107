@@ -91,13 +91,13 @@ Quanto menor o buffer maior o número de syscalls necessárias para conseguir le
 **2. Todas as chamadas read() retornaram BUFFER_SIZE bytes? Discorra brevemente sobre**
 
 ```
-Nem todas, quando chegamos em EOF, por exemplo, read() retorna só a quantidade de bytes lidos até o EOF
+Nem todas, quando chegamos em EOF, por exemplo, read() retorna só a quantidade de bytes lidos até o EOF.
 ```
 
 **3. Qual é a relação entre syscalls e performance?**
 
 ```
-[Sua análise aqui]
+Quanto mais syscalls são feitos menor a performance do nosso programa dado que a cada syscall temos overhead do sistema (mudança entre o espaço do usuário e o kernel), o que faz com que precisemos guardar registradores, executar a operaçõe e ai voltar para o espaço do usuário.
 ```
 
 ---
@@ -105,47 +105,50 @@ Nem todas, quando chegamos em EOF, por exemplo, read() retorna só a quantidade 
 ## 4️⃣ Exercício 4 - Cópia de Arquivo
 
 ### 📈 Resultados:
-- Bytes copiados: _____
-- Operações: _____
-- Tempo: _____ segundos
-- Throughput: _____ KB/s
+- Bytes copiados: 1364 
+- Operações: 6
+- Tempo: 0.000296 segundos
+- Throughput: 4500.11 KB/s
 
 ### ✅ Verificação:
 ```bash
 diff dados/origem.txt dados/destino.txt
 ```
-Resultado: [ ] Idênticos [ ] Diferentes
+Resultado: [X] Idênticos [ ] Diferentes
 
 ### 🔍 Análise
 
 **1. Por que devemos verificar que bytes_escritos == bytes_lidos?**
 
 ```
-[Sua análise aqui]
+Para assim poder verificar que não ocorreu nenhum erro durante a escrita do nosso arquivo.
 ```
 
 **2. Que flags são essenciais no open() do destino?**
 
 ```
-[Sua análise aqui]
+São essenciais as flags: 
+O_WRONLY - para abrir o arquivo para escrita
+O_CREAT - para criar o arquivo caso ele não exista
+O_TRUNC - para caso o arquivo já exista com texto, ele seja limpo
 ```
 
 **3. O número de reads e writes é igual? Por quê?**
 
 ```
-[Sua análise aqui]
+Não são iguais, porque temos os writes também dos printfs que existem pelo arquivo
 ```
 
 **4. Como você saberia se o disco ficou cheio?**
 
 ```
-[Sua análise aqui]
+Poderiamos saber caso nosso arquivo fosse escrito so até certo ponto, e caso na hora de escrever recebessemos como retorno -1 com o erro, No space left on device.
 ```
 
 **5. O que acontece se esquecer de fechar os arquivos?**
 
 ```
-[Sua análise aqui]
+Ficariamos com recursos dos sistemas ainda sendo usados mesmo, e limitariamos o número de file descriptors disponiveis.
 ```
 
 ---
@@ -157,19 +160,19 @@ Resultado: [ ] Idênticos [ ] Diferentes
 **1. Como as syscalls demonstram a transição usuário → kernel?**
 
 ```
-[Sua análise aqui]
+Cada syscall faz a transição usuário -> kernell -> usuário, pois as ações executadas pelos syscall só podem ser executados no modo kernel.
 ```
 
 **2. Qual é o seu entendimento sobre a importância dos file descriptors?**
 
 ```
-[Sua análise aqui]
+Os file descriptors são importantes pois eles servem para controle das operações de kernell, assim conseguimos indentificar qual arquivo abrimos com open e aplicar operações de syscall nele.
 ```
 
 **3. Discorra sobre a relação entre o tamanho do buffer e performance:**
 
 ```
-[Sua análise aqui]
+Quanto maior o buffer menos syscall teremos que ter e menos overhead vamos sofrer, em compensação a depender de quão grande o buffer for ele pode não caber mais no cache o que faz com que as operações de acesso sejam mais lentas também.
 ```
 
 ### ⚡ Comparação de Performance
@@ -180,21 +183,21 @@ time ./ex4_copia
 time cp dados/origem.txt dados/destino_cp.txt
 ```
 
-**Qual foi mais rápido?** _____
+**Qual foi mais rápido?** cp - com diferença mínima
 
 **Por que você acha que foi mais rápido?**
 
 ```
-[Sua análise aqui]
+Acredito que deve ser mais otimizado em relação a tamanho de buffer, e em relação as syscalls.
 ```
 
 ---
 
 ## 📤 Entrega
 Certifique-se de ter:
-- [ ] Todos os códigos com TODOs completados
-- [ ] Traces salvos em `traces/`
-- [ ] Este relatório preenchido como `RELATORIO.md`
+- [x] Todos os códigos com TODOs completados
+- [x] Traces salvos em `traces/`
+- [x] Este relatório preenchido como `RELATORIO.md`
 
 ```bash
 strace -e write -o traces/ex1a_trace.txt ./ex1a_printf

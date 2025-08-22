@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <time.h>
 
-#define BUFFER_SIZE 64   // Buffer pequeno para forçar múltiplas leituras
+#define BUFFER_SIZE 1024   // Buffer pequeno para forçar múltiplas leituras
 
 int main() {
     char buffer[BUFFER_SIZE];
@@ -40,7 +40,7 @@ int main() {
      * TODO 1: Implementar loop de leitura
      * Loop até read() retornar 0 (fim do arquivo)
      */
-        while ((bytes_lidos = read(fd, buffer, (BUFFER_SIZE - 1))) > 0) {
+        while ((bytes_lidos = read(fd, buffer, (BUFFER_SIZE))) > 0) {
             total_reads++;
         /*
          * TODO 2: Contar caracteres '\n' no buffer

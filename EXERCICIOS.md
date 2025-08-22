@@ -283,10 +283,10 @@ Teste diferentes tamanhos editando manualmente o arquivo:
 
 | Buffer Size | Syscalls read() | Tempo (s) | Chars/seg |
 |-------------|-----------------|-----------|-----------|
-| 16          | ?               | ?         | ?         |
-| 64          | ?               | ?         | ?         |
-| 256         | ?               | ?         | ?         |
-| 1024        | ?               | ?         | ?         |
+| 16          | 83              | 0.000217  |  5990783  |
+| 64          | 22              | 0.000130  | 10000000  |
+| 256         | 7               | 0.000103  | 12621359  |
+| 1024        | 3               | 0.000078  | 16666666  |
 
 ### Perguntas para Análise:
 
